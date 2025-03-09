@@ -54,7 +54,7 @@ class Digraph:
 
     def shortest_path(self, src: Any, dest: Any) -> int:
         """ Return shortest path from src to dest in graph, return -1 if no path exists
-            (BFS style search)
+            (Iterative BFS style search)
         """
 
         queue = deque([(src, 0)])
