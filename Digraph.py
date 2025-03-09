@@ -1,20 +1,135 @@
 from __future__ import annotations
 from typing import Any
+from collections import deque
+
 
 class Digraph:
     """
-
+    A representation of a directed graph data structure.
     """
 
+    _vertices: dict[Any, _Vertex]
+
     def __init__(self):
-        pass
+        self._vertices = {}
+
+    def add_vertex(self, item: Any):
+        self._vertices[item] = _Vertex(item, set())
+
+    def add_edge(self, start: Any, end: Any) -> None:
+        """Add an edge between the two vertices with the given items in this graph.
+
+        Raise a ValueError if start or end do not appear as vertices in this graph.
+
+        Preconditions:
+            - start != end
+        """
+        if start in self._vertices and start in self._vertices:
+            start_vertex = self._vertices[start]
+            end_vertex = self._vertices[end]
+
+            # Add the new edge (directional)
+            start_vertex.add_outgoing_link(end_vertex)
+            end_vertex.add_incoming_link(start_vertex)
+        else:
+            raise ValueError
+
+    def remove_vertex(self, item):
+        vertex = self._vertices[item]
+        # remove all incoming connections of the vertex
+        for incoming_link in vertex.incoming:
+            incoming_link.remove_outgoing_link()
+
+        self._vertices.pop(item)
+
+    def remove_edge(self, start: Any, end: Any) -> None:
+        if start in self._vertices and start in self._vertices:
+            start_vertex = self._vertices[start]
+            end_vertex = self._vertices[end]
+
+            start_vertex.remove_outgoing_link(end_vertex)
+            end_vertex.remove_incoming_link(start_vertex)
+        else:
+            raise ValueError
+
+    def shortest_path(self, src: Any, dest: Any) -> int:
+        """ Return shortest path from src to dest in graph, return -1 if no path exists
+            (BFS style search)
+        """
+
+        queue = deque([(src, 0)])
+        visited = set([src])
+        while queue:
+            cur, d = queue.popleft()
+            if cur == dest:
+                return d
+            for node in self._vertices[cur].outgoing:
+                val = node.item
+                if val not in visited:
+                    queue.append((val, d+1))
+        return -1
+
+    def is_path(self, src: Any, dest: Any) -> bool:
+        """ Return if there is a valid path from src to dest
+            (DFS style search for kosaraju's)
+        """
+
+        stack = deque([src])
+        visited = set([src])
+        while stack:
+            cur = stack.pop()
+            if cur == dest:
+                return True
+            for node in self._vertices[cur].outgoing:
+                val = node.item
+                if val not in visited:
+                    stack.append(val)
+        return False
+
+    def compute_transpose(self) -> Digraph:
+        """ Compute and return the transpose of the graph
+            (Where all the edges are flipped)
+        """
+        transpose = Digraph()
+
+        # add all the nodes to our transpose
+        for node in self._vertices:
+            transpose.add_vertex(node)
+
+        # reverse all the edges
+        for node in self._vertices:
+            for neighbours in self._vertices[node].outgoing:
+                transpose.add_edge(neighbours, node)
+
+        return transpose
+
+    def kosaraju(self):
+        """ Return the strongly connected components
+        """
+
+    def __int__(self, node: Any):
+        return node in self._vertices
+
 
 class _Vertex:
-
     item: Any
-    neighbours: set[_Vertex]
+    incoming: set[_Vertex]
+    outgoing: set[_Vertex]
 
-    def __init__(self, item: Any, neighbours: set[_Vertex]) -> None:
+    def __init__(self, item: Any, outgoing: set[_Vertex]) -> None:
         """Initialize a new vertex with the given item and neighbours."""
         self.item = item
-        self.neighbours = neighbours
+        self.incoming = set()
+        self.outgoing = outgoing
+
+    def add_incoming_link(self, vertex: _Vertex):
+        self.incoming.add(vertex)
+
+    def add_outgoing_link(self, vertex: _Vertex):
+        self.outgoing.add(vertex)
+
+    def remove_incoming_link(self, vertex):
+        self.incoming.remove(vertex)
+
+    def remove_outgoing_link(self, vertex):
+        self.outgoing.remove(vertex)
