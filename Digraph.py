@@ -10,7 +10,7 @@ class Digraph:
         pass
 
 class _Vertex:
-
+    "Dataclass representing a Vertex in the Digraph."
     item: Any
     neighbours: set[_Vertex]
 
