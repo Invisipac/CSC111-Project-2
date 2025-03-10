@@ -103,9 +103,53 @@ class Digraph:
 
         return transpose
 
+    def _dfs(self, src, visited, stack):
+        """ Traverses graph and uptades visited and stack
+        """
+        visited.add(src)
+        for neighbour in self._vertices[src].outgoing:
+            val = neighbour.item
+            if val not in visited:
+                self._dfs(val, visited, stack)
+        stack.append(src)
+
+    def _fill_order(self, visited, stack):
+        """ helper that calls dfs util
+        """
+        for node in self._vertices:
+            if node.item not in visited:
+                self._dfs(node.item, visited, stack)
+
+    def _dfs_util(self, src, visited, component):
+        """ Helper for kosaraju's, checks connected nodes for our tranposed graph
+        """
+        visited.add(src)
+        component.add(src)
+        for node in self._vertices[src].outgoing:
+            if node.item not in visited:
+                self._dfs_util(node.item, visited, component)
+
     def kosaraju(self):
         """ Return the strongly connected components
         """
+
+        # create empty stack
+        stack = deque()
+        visited = set()
+
+        self._fill_order(visited, stack)
+
+        transposed_graph = self.compute_transpose()
+
+        visited = set()
+        scc = []
+        while stack:
+            node = stack.pop()
+            if node not in visited:
+                component = []
+                transposed_graph._dfs_util(node, visited, component)
+                scc.append(component)
+        return scc
 
     def __int__(self, node: Any):
         return node in self._vertices
