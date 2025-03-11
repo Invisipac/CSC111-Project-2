@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import pprint
 
 test_url = "/wiki/Computer_science"
-
+d = 2
 
 def get_hyperlinks(page_url: str) -> dict:
     url_base = "https://en.wikipedia.org"
@@ -30,4 +30,17 @@ def get_hyperlinks(page_url: str) -> dict:
     return {link: dict() for link in usable_links}
 
 
-pprint.pprint(get_hyperlinks(test_url))
+def create_dataset(data: dict, depth: int) -> dict:
+    if depth == 0:
+        return data
+    else:
+        for link in data:
+            data[link] = get_hyperlinks(link)
+            create_dataset(data[link], depth-1)
+
+        return data
+
+
+start = {test_url: {}}
+dataset = create_dataset(start, d)
+pprint.pprint(dataset)
