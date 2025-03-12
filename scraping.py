@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import pprint
 
 test_url = "/wiki/Computer_science"
-d = 2
+d = 3
 
 def get_hyperlinks(page_url: str) -> dict:
     url_base = "https://en.wikipedia.org"
