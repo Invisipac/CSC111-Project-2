@@ -13,7 +13,39 @@ class Digraph:
     def __init__(self):
         self._vertices = {}
 
+    def generate_test_graph(self) -> Digraph:
+        graph = Digraph()
+        wikipedia_topics = [
+            "Machine Learning", "Artificial Intelligence", "Data Science",
+            "Deep Learning", "Neural Networks", "Computer Vision",
+            "Natural Language Processing", "Big Data", "Reinforcement Learning"
+        ]
+
+        for topic in wikipedia_topics:
+            graph.add_vertex(topic)
+
+        graph.add_edge("Machine Learning", "Artificial Intelligence")
+        graph.add_edge("Machine Learning", "Data Science")
+        graph.add_edge("Artificial Intelligence", "Deep Learning")
+        graph.add_edge("Artificial Intelligence", "Natural Language Processing")
+        graph.add_edge("Data Science", "Big Data")
+        graph.add_edge("Deep Learning", "Neural Networks")
+        graph.add_edge("Neural Networks", "Computer Vision")
+        graph.add_edge("Natural Language Processing", "Reinforcement Learning")
+        return graph
+
     def add_vertex(self, item: Any):
+        """
+        Adds a vertex to the digraph.
+
+        >>> graph = Digraph()
+        >>> graph.add_vertex("Cool Topic")
+        >>> len(graph._vertices)
+        1
+
+        :param item:
+        :return:
+        """
         self._vertices[item] = _Vertex(item, set())
 
     def add_edge(self, start: Any, end: Any) -> None:
@@ -23,6 +55,13 @@ class Digraph:
 
         Preconditions:
             - start != end
+
+        >>> graph = Digraph()
+        >>> graph.add_vertex("Cool Topic")
+        >>> graph.add_vertex("Cool Topic 2")
+        >>> graph.add_edge("Cool Topic", "Cool Topic 2")
+        >>> len(graph._vertices["Cool Topic"].outgoing)
+        1
         """
         if start in self._vertices and start in self._vertices:
             start_vertex = self._vertices[start]
@@ -35,14 +74,54 @@ class Digraph:
             raise ValueError
 
     def remove_vertex(self, item):
+        """ Removes a vertex by item value from the digraph.
+
+        >>> graph = Digraph()
+        >>> graph.add_vertex("Cool Topic")
+        >>> graph.add_vertex("Cool Topic 2")
+        >>> graph.add_edge("Cool Topic", "Cool Topic 2")
+        >>> graph.remove_vertex("Cool Topic 2")
+        >>> len(graph._vertices)
+        1
+        >>> "Cool Topic 2" in graph._vertices
+        False
+        >>> graph.add_vertex("Cool Topic 3")
+        >>> graph.add_edge("Cool Topic", "Cool Topic 3")
+        >>> graph.remove_vertex("Cool Topic")
+        >>> len(graph._vertices)
+        1
+        >>> "Cool Topic" in graph._vertices
+        False
+        >>> "Cool Topic 3" in graph._vertices
+        True
+        """
         vertex = self._vertices[item]
+
         # remove all incoming connections of the vertex
         for incoming_link in vertex.incoming:
-            incoming_link.remove_outgoing_link()
+            incoming_link.remove_outgoing_link(vertex)
 
         self._vertices.pop(item)
 
     def remove_edge(self, start: Any, end: Any) -> None:
+        """ Removes the edge between two items in the digraph.
+
+        >>> graph = Digraph()
+        >>> graph.add_vertex("Topic A")
+        >>> graph.add_vertex("Topic B")
+        >>> graph.add_edge("Topic A", "Topic B")
+        >>> graph._vertices["Topic B"] in graph._vertices["Topic A"].outgoing
+        True
+        >>> graph._vertices["Topic A"] in graph._vertices["Topic B"].incoming
+        True
+        >>> graph.remove_edge("Topic A", "Topic B")
+        >>> graph._vertices["Topic B"] in graph._vertices["Topic A"].outgoing
+        False
+        >>> graph._vertices["Topic A"] in graph._vertices["Topic B"].incoming
+        False
+        >>> graph.remove_edge("Topic A", "Topic B")  # no error expected
+        """
+
         if start in self._vertices and start in self._vertices:
             start_vertex = self._vertices[start]
             end_vertex = self._vertices[end]
@@ -52,9 +131,26 @@ class Digraph:
         else:
             raise ValueError
 
-    def shortest_path(self, src: Any, dest: Any) -> int:
-        """ Return shortest path from src to dest in graph, return -1 if no path exists
-            (Iterative BFS style search)
+    def shortest_path_length(self, src: Any, dest: Any) -> int:
+        """
+        Return shortest path from src to dest in graph, return -1 if no path exists
+        (Iterative BFS style search)
+
+        >>> graph = Digraph()
+        >>> graph.add_vertex("A")
+        >>> graph.add_vertex("B")
+        >>> graph.add_vertex("C")
+        >>> graph.add_vertex("D")
+        >>> graph.add_edge("A", "B")
+        >>> graph.add_edge("B", "C")
+        >>> graph.add_edge("A", "D")
+        >>> graph.add_edge("D", "C")
+        >>> graph.shortest_path_length("A", "C")
+        2
+        >>> graph.shortest_path_length("A", "B")
+        1
+        >>> graph.shortest_path_length("C", "A")
+        -1
         """
 
         queue = deque([(src, 0)])
