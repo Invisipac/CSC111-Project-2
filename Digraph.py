@@ -119,10 +119,9 @@ class Digraph:
         False
         >>> graph._vertices["Topic A"] in graph._vertices["Topic B"].incoming
         False
-        >>> graph.remove_edge("Topic A", "Topic B")  # no error expected
         """
 
-        if start in self._vertices and start in self._vertices:
+        if start in self._vertices and end in self._vertices and self._vertices[end] in self._vertices[start].outgoing:
             start_vertex = self._vertices[start]
             end_vertex = self._vertices[end]
 
