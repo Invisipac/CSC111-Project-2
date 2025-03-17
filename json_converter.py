@@ -3,7 +3,7 @@ import json
 import scraping
 from scraping import get_hyperlinks, create_dataset
 
-file_name = "graph_data.json"
+file_name = "graph_data_test.json"
 
 
 def get_all_json(hyperlinks: list[str]) -> None:
