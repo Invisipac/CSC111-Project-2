@@ -5,7 +5,6 @@ import requests
 from bs4 import BeautifulSoup
 import pprint
 import threading
-from multiprocessing import Process
 
 test_url = "/wiki/Computer_science"
 d = 3
@@ -40,34 +39,13 @@ def get_hyperlinks(page_url: str, data: dict = None) -> dict:
 def create_dataset(data: dict, depth: int) -> dict:
     if depth == 0:
         return data
-    elif depth == d - 1 or depth == d - 2:
-        # processes = []
-        # for link in data:
-        #     process = Process(target=get_hyperlinks, args=(link, data))
-        #     process.start()
-        #     processes.append(process)
-        #     # new_thread = threading.Thread(target=get_hyperlinks, args=(link, data))
-        #     # new_thread.start()
-        #     # threads.append(new_thread)
-        #
-        # # for t in threads:
-        # #     t.start()
-        # for process in processes:
-        #     process.join()
-        #
-        # for l in data:
-        #     create_dataset(data[l], depth - 1)
+    elif depth == d - 1: # or depth == d - 2:
         threads = []
         for link in data:
             thread = threading.Thread(target=get_hyperlinks, args=(link, data))
             thread.start()
             threads.append(thread)
-            # new_thread = threading.Thread(target=get_hyperlinks, args=(link, data))
-            # new_thread.start()
-            # threads.append(new_thread)
 
-        # for t in threads:
-        #     t.start()
         for thread in threads:
             thread.join()
 
@@ -84,16 +62,6 @@ def create_dataset(data: dict, depth: int) -> dict:
 def create_dataset_original(data: dict, depth: int) -> dict:
     if depth == 0:
         return data
-    # elif depth == d - 1:
-    #     threads = []
-    #     for link in data:
-    #         new_thread = threading.Thread(target=assign_links, args=(data, link, get_hyperlinks(link)))
-    #         threads.append(new_thread)
-    #
-    #     for t in threads:
-    #         t.start()
-    #     for t in threads:
-    #         t.join()
     else:
         for link in data:
             data[link] = get_hyperlinks(link)
