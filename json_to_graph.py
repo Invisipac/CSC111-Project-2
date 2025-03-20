@@ -17,14 +17,16 @@ def get_graph_from_link_data(link_path: str):
         for link in data:
             add_all_vertices(graph, data, link)
 
+    return graph
 
 def add_all_vertices(graph, data, article):
-    graph.add_vertex(article.remove_prefix(WIKILINK_PREFIX))
+
+    graph.add_vertex(article.removeprefix(WIKILINK_PREFIX))
 
     for link in data[article]:
-        graph.add_vertex(graph, data[article][link], link)
+        add_all_vertices(graph, data[article], link)
 
 
 
 if __name__ == "__main__":
-    get_graph_from_link_data('graph_data_test.json')
+    print(get_graph_from_link_data('graph_data_test.json')._vertices)
