@@ -46,7 +46,8 @@ class Digraph:
         :param item:
         :return:
         """
-        self._vertices[item] = _Vertex(item, set())
+        if item not in self._vertices:
+            self._vertices[item] = _Vertex(item, set())
 
     def add_edge(self, start: Any, end: Any) -> None:
         """Add an edge between the two vertices with the given items in this graph.
@@ -249,6 +250,8 @@ class Digraph:
     def __int__(self, node: Any):
         return node in self._vertices
 
+    def get_vertex(self, item: Any) -> _Vertex:
+        return self._vertices[item]
 
 class _Vertex:
     item: Any

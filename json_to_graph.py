@@ -8,7 +8,6 @@ WIKILINK_PREFIX = "/wiki/"
 
 
 def get_graph_from_link_data(link_path: str):
-    #this isnt done
     graph = Digraph()
     with open(link_path) as json_data:
         data = json.load(json_data)
@@ -19,14 +18,15 @@ def get_graph_from_link_data(link_path: str):
 
     return graph
 
-def add_all_vertices(graph, data, article):
 
+def add_all_vertices(graph, data, article):
     graph.add_vertex(article.removeprefix(WIKILINK_PREFIX))
 
     for link in data[article]:
         add_all_vertices(graph, data[article], link)
-
+        graph.add_edge(article.removeprefix(WIKILINK_PREFIX), link.removeprefix(WIKILINK_PREFIX))
+        # print("added edge bbetween", article.removeprefix(WIKILINK_PREFIX), link.removeprefix(WIKILINK_PREFIX))
 
 
 if __name__ == "__main__":
-    print(get_graph_from_link_data('graph_data_test.json')._vertices)
+    print(len(get_graph_from_link_data('graph_data_test.json').get_vertex("Computer_science").outgoing))
