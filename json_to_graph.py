@@ -4,7 +4,7 @@ from pprint import pprint
 
 from Digraph import Digraph, _Vertex
 
-WIKILINK_PREFIX = "/wiki/"
+WIKILINK_PREFIX = ""
 
 
 def get_graph_from_link_data(link_path: str):
@@ -25,7 +25,7 @@ def add_all_vertices(graph, data, article):
     for link in data[article]:
         add_all_vertices(graph, data[article], link)
         graph.add_edge(article.removeprefix(WIKILINK_PREFIX), link.removeprefix(WIKILINK_PREFIX))
-        # print("added edge bbetween", article.removeprefix(WIKILINK_PREFIX), link.removeprefix(WIKILINK_PREFIX))
+        # print("added edge between", article.removeprefix(WIKILINK_PREFIX), link.removeprefix(WIKILINK_PREFIX))
 
 
 if __name__ == "__main__":
