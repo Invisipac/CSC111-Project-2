@@ -3,15 +3,15 @@ import json
 import scraping
 from scraping import get_hyperlinks, create_dataset
 
-file_name = "multiple_words_data.json"
-
+file_name = "multi-discipline_data.json"
+starting_links = ["Computer_science", "Economics", "Mathematics", "History", "Literature", "Chemistry", "Physics",
+                  "Biology", "Sociology", "Psychology", "Geography", "Visual_arts", "Music"]
 
 def get_all_json(hyperlinks: list[str]) -> None:
     for link in hyperlinks:
         data = create_dataset({link: {}}, scraping.d)
 
-        with open(file_name, 'w') as f:
+        with open(file_name, 'a') as f:
             json.dump(data, f, indent=4)
 
-
-get_all_json(["Computer_science"])
+get_all_json(sorted(starting_links))
