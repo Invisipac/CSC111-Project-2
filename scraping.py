@@ -2,17 +2,17 @@ import requests
 from bs4 import BeautifulSoup
 import pprint
 
-test_url = "/wiki/Computer_science"
-d = 3
+test_url = "Computer_science"
+d = 2
 
 def get_hyperlinks(page_url: str) -> dict:
-    url_base = "https://en.wikipedia.org"
+    url_base = "https://en.wikipedia.org/wiki/"
     page = requests.get(url_base + page_url)
 
     soup = BeautifulSoup(page.content, "html.parser")
     links = soup.find_all('a')
 
-    word_filter = {':', 'Glossary', 'History_of', 'List_of', 'Timeline_of', '_'}
+    word_filter = {':', 'Glossary', 'History_of', 'List_of', 'Timeline_of'}
 
     usable_links = []
     for link in links:
@@ -21,10 +21,10 @@ def get_hyperlinks(page_url: str) -> dict:
                 (url not in usable_links) and
                 (url.count('/') == 2) and
                 ('/wiki/' in url) and
-                (url not in page_url) and
+                (page_url not in url) and
                 (':' not in url) and
                 (all(word not in url for word in word_filter))):
-            usable_links.append(url)
+            usable_links.append(url[6:])
 
     usable_links.sort()
     return {link: dict() for link in usable_links}

@@ -3,7 +3,7 @@ import json
 import scraping
 from scraping import get_hyperlinks, create_dataset
 
-file_name = "graph_data.json"
+file_name = "multiple_words_data.json"
 
 
 def get_all_json(hyperlinks: list[str]) -> None:
@@ -14,4 +14,4 @@ def get_all_json(hyperlinks: list[str]) -> None:
             json.dump(data, f, indent=4)
 
 
-get_all_json(["/wiki/Computer_science"])
+get_all_json(["Computer_science"])
