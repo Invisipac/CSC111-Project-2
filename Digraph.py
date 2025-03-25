@@ -13,6 +13,13 @@ class Digraph:
     def __init__(self):
         self._vertices = {}
 
+    def get_all_vertices(self) -> list[Any]:
+        return [v for v in self._vertices]
+
+    def get_incoming_and_outgoing(self, v: Any) -> tuple[list[Any], list[Any]]:
+        inc, out = [n.item for n in self._vertices[v].incoming], [n.item for n in self._vertices[v].outgoing]
+        return inc, out
+
     def generate_test_graph(self) -> Digraph:
         graph = Digraph()
         wikipedia_topics = [
