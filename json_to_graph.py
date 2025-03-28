@@ -7,7 +7,10 @@ from Digraph import Digraph, _Vertex
 WIKILINK_PREFIX = ""
 
 
-def get_graph_from_link_data(link_path: str):
+def get_graph_from_link_data(link_path: str) -> Digraph:
+    """
+    Returns a directed graph from the given json of link data, representing all links and linkages in the data.
+    """
     graph = Digraph()
     with open(link_path) as json_data:
         data = json.load(json_data)
@@ -19,7 +22,7 @@ def get_graph_from_link_data(link_path: str):
     return graph
 
 
-def add_all_vertices(graph, data, article):
+def add_all_vertices(graph: Digraph, data: dict, article: str) -> None:
     graph.add_vertex(article.removeprefix(WIKILINK_PREFIX))
 
     for link in data[article]:
@@ -28,5 +31,7 @@ def add_all_vertices(graph, data, article):
         # print("added edge between", article.removeprefix(WIKILINK_PREFIX), link.removeprefix(WIKILINK_PREFIX))
 
 
+
 if __name__ == "__main__":
-    print(len(get_graph_from_link_data('graph_data_test.json').get_vertex("Computer_science").outgoing))
+    # print(len(get_graph_from_link_data('multi-discipline_data.json').get_vertex("Computer_science").outgoing))
+    pass

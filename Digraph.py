@@ -165,6 +165,30 @@ class Digraph:
                     queue.append((val, d+1))
         return -1
 
+    def get_shortest_path(self, src: Any, dest: Any) -> list[Any] | int:
+        queue = deque([src])
+        visited = {src}
+        parent = {src: None}
+
+        while queue:
+            cur = queue.popleft()
+
+            if cur == dest:
+                path = []
+                while cur is not None:
+                    path.append(cur)
+                    cur = parent[cur]
+                return path[::-1]
+
+            for node in self._vertices[cur].outgoing:
+                val = node.item
+                if val not in visited:
+                    queue.append(val)
+                    visited.add(val)
+                    parent[val] = cur
+
+        return -1
+
     def is_path(self, src: Any, dest: Any) -> bool:
         """ Return if there is a valid path from src to dest
             (DFS style search for kosaraju's)
@@ -252,6 +276,28 @@ class Digraph:
 
     def get_vertex(self, item: Any) -> _Vertex:
         return self._vertices[item]
+
+    def count_edges(self) -> int:
+        count = 0
+        for vertex in self._vertices:
+            count += len(self._vertices[vertex].outgoing)
+        return count
+
+    def count_vertices(self) -> int:
+        return len(self._vertices)
+
+    def get_start_items(self) ->  list[Any]:
+        lst = []
+
+        for ver in self._vertices:
+            ver_obj = self._vertices[ver]
+            if len(ver_obj.outgoing) != 0:
+                lst.append(ver_obj.item)
+
+        return lst
+
+    def get_items(self) -> list[Any]:
+        return [self._vertices[vert].item for vert in self._vertices]
 
 class _Vertex:
     item: Any
