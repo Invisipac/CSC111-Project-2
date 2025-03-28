@@ -11,4 +11,4 @@ if __name__ == "__main__":
     random_start = random.choice(graph.get_start_items()) # cannot start on a 'leaf' of the graph (no outgoing)
     random_end = random.choice(graph.get_items())
     print("Random: ", graph.get_shortest_path(random_start, random_end))
-git reset HEAD~1
+
