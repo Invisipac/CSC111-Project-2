@@ -271,7 +271,7 @@ class Digraph:
                 scc.append(component)
         return scc
 
-    def __int__(self, node: Any):
+    def __contains__(self, node: Any):
         return node in self._vertices
 
     def get_vertex(self, item: Any) -> _Vertex:
