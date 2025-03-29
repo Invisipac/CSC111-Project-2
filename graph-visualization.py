@@ -1,14 +1,17 @@
-from networkx.drawing import spring_layout
 
+from networkx.drawing import spring_layout
 from Digraph import Digraph
 import networkx as nx
 import plotly as plt
 import plotly.graph_objs as go
+import json_to_graph
+import time
+
 
 class Draw_Graph:
     graph: Digraph
 
-    def __init__(self, graph: Digraph):
+    def __init__(self, graph: Digraph | nx.DiGraph):
         self.graph = graph
 
     @staticmethod
@@ -28,7 +31,10 @@ class Draw_Graph:
 
     def gen_graph_plot(self) -> tuple:
         """a"""
-        nx_graph = Draw_Graph.to_networkx(self.graph)
+        if not isinstance(self.graph, nx.DiGraph):
+            nx_graph = Draw_Graph.to_networkx(self.graph)
+        else:
+            nx_graph = self.graph
         pos = getattr(nx, "spring_layout")(nx_graph)
         node_x = [pos[k][0] for k in nx_graph.nodes]
         node_y = [pos[k][1] for k in nx_graph.nodes]
@@ -73,10 +79,16 @@ class Draw_Graph:
                                 hovertemplate='%{text}',
                                 hoverlabel={'namelength': 0})
 
+        INCOMING_COLOUR = "black"
+        OUTGOING_COLOUR = "red"
+
         arrow_annotations = []
         for edge in nx_graph.edges():
             x0, y0 = pos[edge[0]]
             x1, y1 = pos[edge[1]]
+
+            color = OUTGOING_COLOUR if edge[0] < edge[1] else INCOMING_COLOUR
+
             arrow_annotations.append(
                 dict(
                     ax=x0, ay=y0, axref='x', ayref='y',
@@ -85,7 +97,7 @@ class Draw_Graph:
                     arrowhead=3,  # Arrow style
                     arrowsize=2,
                     arrowwidth=1,
-                    arrowcolor="black"
+                    arrowcolor=color
                 )
             )
 
@@ -114,7 +126,19 @@ class Draw_Graph:
 
 
 if __name__ == "__main__":
-    g = Digraph()
-    g = g.generate_test_graph()
-    draw_graph = Draw_Graph(g)
-    draw_graph.visualize()
+
+    start = time.time()
+    g = json_to_graph.get_graph_from_link_data("multiple_words_data.json")
+    end = time.time()
+    print(end - start)
+
+    start = time.time()
+    subgraph = g.extract_test_subgraph_for_networkx(350)
+    end = time.time()
+    print(end - start)
+
+    # start = time.time()
+    # draw_graph = Draw_Graph(subgraph)
+    # draw_graph.visualize()
+    # end = time.time()
+    # print(end - start)
