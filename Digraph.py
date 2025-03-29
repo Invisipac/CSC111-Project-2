@@ -165,7 +165,12 @@ class Digraph:
                     queue.append((val, d+1))
         return -1
 
-    def get_shortest_path(self, src: Any, dest: Any) -> list[Any] | int:
+    def get_shortest_path(self, src: Any, dest: Any) -> list[Any] | None:
+        """
+        Returns a list representing a path from the src to the destination, as items in the graph. If no
+        such path is found, returns None.
+        """
+
         queue = deque([src])
         visited = {src}
         parent = {src: None}
@@ -187,7 +192,7 @@ class Digraph:
                     visited.add(val)
                     parent[val] = cur
 
-        return -1
+        return None
 
     def is_path(self, src: Any, dest: Any) -> bool:
         """ Return if there is a valid path from src to dest
@@ -287,6 +292,9 @@ class Digraph:
         return len(self._vertices)
 
     def get_start_items(self) ->  list[Any]:
+        """
+        Returns a list of items of vertices in the graph which have at least one outgoing connection.
+        """
         lst = []
 
         for ver in self._vertices:
@@ -297,6 +305,10 @@ class Digraph:
         return lst
 
     def get_items(self) -> list[Any]:
+        """
+        Returns a list of items of vertices in the graph.
+        :return:
+        """
         return [self._vertices[vert].item for vert in self._vertices]
 
 class _Vertex:
