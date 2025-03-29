@@ -1,7 +1,8 @@
 from __future__ import annotations
 from typing import Any
 from collections import deque
-
+import random
+import networkx as nx
 
 class Digraph:
     """
@@ -13,7 +14,15 @@ class Digraph:
     def __init__(self):
         self._vertices = {}
 
-    def generate_test_graph(self) -> Digraph:
+    def get_all_vertices(self) -> list[Any]:
+        return [v for v in self._vertices]
+
+    def get_incoming_and_outgoing(self, v: Any) -> tuple[list[Any], list[Any]]:
+        inc, out = [n.item for n in self._vertices[v].incoming], [n.item for n in self._vertices[v].outgoing]
+        return inc, out
+
+    @staticmethod
+    def generate_test_graph() -> Digraph:
         graph = Digraph()
         wikipedia_topics = [
             "Machine Learning", "Artificial Intelligence", "Data Science",
@@ -33,6 +42,26 @@ class Digraph:
         graph.add_edge("Neural Networks", "Computer Vision")
         graph.add_edge("Natural Language Processing", "Reinforcement Learning")
         return graph
+
+    def extract_test_subgraph_for_networkx(self, num_paths) -> nx.DiGraph:
+        paths = []
+        for i in range(num_paths):
+            random_start = random.choice(self.get_start_items())  # cannot start on a 'leaf' of the graph (no outgoing)
+            random_end = random.choice(self.get_items())
+            path = self.get_shortest_path(random_start, random_end)
+            # print(path)
+            if path:
+                print(path, len(path))
+                # paths.append(path)
+
+        nx_graph = nx.DiGraph()
+        for p in paths:
+            for i in range(len(p) - 1):
+                nx_graph.add_edge(p[i], p[i + 1])
+
+        return nx_graph
+
+
 
     def add_vertex(self, item: Any):
         """
