@@ -52,7 +52,7 @@ class Digraph:
             # print(path)
             if path:
                 print(path, len(path))
-                # paths.append(path)
+                paths.append(path)
 
         nx_graph = nx.DiGraph()
         for p in paths:
