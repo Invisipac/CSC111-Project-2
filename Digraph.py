@@ -253,7 +253,7 @@ class Digraph:
         # reverse all the edges
         for node in self._vertices:
             for neighbours in self._vertices[node].outgoing:
-                transpose.add_edge(neighbours, node)
+                transpose.add_edge(neighbours.item, node)
 
         return transpose
 
@@ -271,8 +271,8 @@ class Digraph:
         """ helper that calls dfs util
         """
         for node in self._vertices:
-            if node.item not in visited:
-                self._dfs(node.item, visited, stack)
+            if node not in visited:
+                self._dfs(node, visited, stack)
 
     def _dfs_util(self, src, visited, component):
         """ Helper for kosaraju's, checks connected nodes for our tranposed graph
@@ -300,7 +300,7 @@ class Digraph:
         while stack:
             node = stack.pop()
             if node not in visited:
-                component = []
+                component = set()
                 transposed_graph._dfs_util(node, visited, component)
                 scc.append(component)
         return scc
