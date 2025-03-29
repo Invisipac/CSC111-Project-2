@@ -23,6 +23,12 @@ if __name__ == "__main__":
     # path finder demo
     print(graph.get_shortest_path("Computer_science", "Edging_(sexual_practice)"))
 
+    # Update label once graph has loaded
+    label.config(text="Graph loaded!")
+    root.update()
+
+    s = sorted(graph.get_start_items())
+    s2 = sorted(graph.get_items())
     possible_starts = sorted(graph.get_start_items())
     possible_ends = sorted(graph.get_items())
 
@@ -74,4 +80,3 @@ if __name__ == "__main__":
     #     print("Random: ", path)
     #     count += len(path)
     # print("Average path length (n = 1000): ", count/1000)
-
