@@ -23,8 +23,8 @@ if __name__ == "__main__":
     # path finder demo
     print(graph.get_shortest_path("Computer_science", "Edging_(sexual_practice)"))
 
-    s = sorted(graph.get_start_items())
-    s2 = sorted(graph.get_items())
+    possible_starts = sorted(graph.get_start_items())
+    possible_ends = sorted(graph.get_items())
 
 
 
@@ -32,10 +32,10 @@ if __name__ == "__main__":
     frame.pack()
 
     # creating text box
-    start_link = AutocompleteText(frame, autocomplete = lambda word : [x for x in s if x.startswith(word)])
+    start_link = AutocompleteText(frame, autocomplete = lambda word : [x for x in possible_starts if x.startswith(word)])
     start_link.place(x=24, y=24, height=60, width=238)
 
-    end_link = AutocompleteText(frame, autocomplete = lambda word: [x for x in s2 if x.startswith(word)])
+    end_link = AutocompleteText(frame, autocomplete = lambda word: [x for x in possible_ends if x.startswith(word)])
     end_link.place(x=338, y=24, height=60, width=238)
 
     to_text = tk.Label(frame, font=("Helvetica", 24), text="to")
@@ -46,10 +46,18 @@ if __name__ == "__main__":
         end = end_link.get("0.1", tk.END).strip()
         print(graph.get_shortest_path(start,  end))
 
+    def randomisePath():
+        random_start = random.choice(possible_starts)
+        random_end = random.choice(possible_ends)
+        start_link.delete("1.0", tk.END)
+        start_link.insert(tk.END, random_start)
+        end_link.delete("1.0", tk.END)
+        end_link.insert(tk.END, random_end)
+
     button1 = tk.Button(frame, text="Run!", command=runPath)
     button1.place(x=181, y=115, height=34, width=238)
 
-    button2 = tk.Button(frame, text="Randomise Path", command=runPath)
+    button2 = tk.Button(frame, text="Randomise Path", command=randomisePath)
     button2.place(x=181, y=150, height=34, width=238)
 
     root.update()
