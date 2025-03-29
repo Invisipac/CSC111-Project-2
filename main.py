@@ -6,6 +6,10 @@ from tkinter_elements import *
 
 
 if __name__ == "__main__":
+    # hello groupmates (and maybe examiner)
+    # heres the figma file that I used to get the coordinates for ui
+    # https://www.figma.com/design/5z95NPKZOqNYSsIcEinEHF/Untitled?node-id=1-7&t=XhewlutMdVN6NP3T-1
+
     root = tk.Tk()
     root.title("Wikilinks App")
 
@@ -14,7 +18,7 @@ if __name__ == "__main__":
     root.update()
 
     print("Loading graph data... this might take a while (~10s).")
-    graph = json_to_graph.get_graph_from_link_data('multiple_words_data.json')
+    graph = json_to_graph.get_graph_from_link_data('multi-discipline_data.json')
 
     # path finder demo
     print(graph.get_shortest_path("Computer_science", "Edging_(sexual_practice)"))
@@ -24,15 +28,18 @@ if __name__ == "__main__":
 
 
 
-    frame = tk.Frame(root, width=600, height=160)
+    frame = tk.Frame(root, width=600, height=200)
     frame.pack()
 
     # creating text box
     start_link = AutocompleteText(frame, autocomplete = lambda word : [x for x in s if x.startswith(word)])
-    start_link.place(x=10, y=10, height=60, width=240)
+    start_link.place(x=24, y=24, height=60, width=238)
 
     end_link = AutocompleteText(frame, autocomplete = lambda word: [x for x in s2 if x.startswith(word)])
-    end_link.place(x=330, y=10, height=60, width=240)
+    end_link.place(x=338, y=24, height=60, width=238)
+
+    to_text = tk.Label(frame, font=("Helvetica", 24), text="to")
+    to_text.place(x=288, y=35)
 
     def runPath():
         start = start_link.get("0.1", tk.END).strip()
@@ -40,7 +47,10 @@ if __name__ == "__main__":
         print(graph.get_shortest_path(start,  end))
 
     button1 = tk.Button(frame, text="Run!", command=runPath)
-    button1.place(x=10, y=70, height=30, width=100)
+    button1.place(x=181, y=115, height=34, width=238)
+
+    button2 = tk.Button(frame, text="Randomise Path", command=runPath)
+    button2.place(x=181, y=150, height=34, width=238)
 
     root.update()
     root.mainloop()
