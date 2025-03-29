@@ -2,6 +2,8 @@ import json_to_graph, Digraph
 import random
 import tkinter as tk
 from tkinter import ttk
+from tkinter_elements import *
+
 
 if __name__ == "__main__":
     root = tk.Tk()
@@ -12,56 +14,38 @@ if __name__ == "__main__":
     root.update()
 
     print("Loading graph data... this might take a while (~10s).")
-    graph = json_to_graph.get_graph_from_link_data('multi-discipline_data.json')
+    graph = json_to_graph.get_graph_from_link_data('multiple_words_data.json')
 
     # path finder demo
     print(graph.get_shortest_path("Computer_science", "Edging_(sexual_practice)"))
 
-
-    def checkkey(event):
-
-        value = event.widget.get()
-        print(value)
-
-        # get data from l
-        if value == '':
-            data = l
-        else:
-            data = []
-            for item in l:
-                if value.lower() in item.lower():
-                    data.append(item)
-
-                    # update data in listbox
-        update(data)
+    s = sorted(graph.get_start_items())
+    s2 = sorted(graph.get_items())
 
 
-    def update(data):
 
-        # clear previous data
-        lb.delete(0, 'end')
-
-        # put new data
-        for item in data:
-            lb.insert('end', item)
-
-            # Driver code
-
-
-    l = graph.get_start_items()
+    frame = tk.Frame(root, width=600, height=160)
+    frame.pack()
 
     # creating text box
-    start_link = tk.Entry(root)
-    start_link.pack()
-    start_link.bind('<KeyRelease>', checkkey)
+    start_link = AutocompleteText(frame, autocomplete = lambda word : [x for x in s if x.startswith(word)])
+    start_link.place(x=10, y=10, height=60, width=240)
 
-    # creating list box
-    lb = tk.Listbox(root)
-    lb.pack()
-    update(l)
+    end_link = AutocompleteText(frame, autocomplete = lambda word: [x for x in s2 if x.startswith(word)])
+    end_link.place(x=330, y=10, height=60, width=240)
+
+    def runPath():
+        start = start_link.get("0.1", tk.END).strip()
+        end = end_link.get("0.1", tk.END).strip()
+        print(graph.get_shortest_path(start,  end))
+
+    button1 = tk.Button(frame, text="Run!", command=runPath)
+    button1.place(x=10, y=70, height=30, width=100)
 
     root.update()
     root.mainloop()
+
+
 
     # count = 0
     # for p in range(1):
