@@ -59,10 +59,14 @@ def display_path(path: list):
 
 def display_multiple_paths(paths):
     for p in paths:
-        display_path(p)
-        print()
+        if p:
+            display_path(p)
+            print()
 
 def display_data_for_pair(start, end, graph):
+    print(graph)
+    start_vert = graph.get_vertex(start)
+    end_vert = graph.get_vertex(end)
     stats, shortest_path, paths = get_stats(graph, 1, start, end)
     print(f"The nodes {start} and {end}:\n")
     print("\t -----The data measured of the two nodes:-----\n")
@@ -98,8 +102,8 @@ def output_results(stats: dict):
             case "percent_paths":
                 print(f"\t- {stats[s]} percent of the starting vertex's neighbours had a path to the ending vertex")
 
-
-start, end = random.choice(g.get_start_items()), random.choice(g.get_items())
-display_data_for_pair(start, end, g)
-stats = get_stats(g, ITERS)
-output_results(stats)
+if __name__ == "__main__":
+    start, end = random.choice(g.get_start_items()), random.choice(g.get_items())
+    display_data_for_pair(start, end, g)
+    stats = get_stats(g, ITERS)
+    output_results(stats)
