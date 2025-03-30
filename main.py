@@ -3,8 +3,8 @@ import python_ta
 import json_to_graph
 import random
 from tkinter_elements import *
-import graph-visualization
-
+import graph_visualization as vis
+import louvain_test as louvain
 
 if __name__ == "__main__":
     # hello groupmates (and maybe examiner)
@@ -71,10 +71,20 @@ if __name__ == "__main__":
         end_link.delete("1.0", tk.END)
         end_link.insert(tk.END, random_end)
 
-    def see_graph() -> None:
-        subgraph = g.extract_test_subgraph_for_networkx(350)
-        draw_graph = Draw_Graph(subgraph)
+    def graph_visualisation() -> None:
+        subgraph = graph.extract_test_subgraph_for_networkx(350)
+        draw_graph = vis.Draw_Graph(subgraph)
         draw_graph.visualize()
+
+    def louvain_visualisation() -> None:
+        label.config(text="Calculating communities may take upwards of 1-3 minutes."
+                          "\nCheck the console to see articles being added, and PyCharm plots to see the finished graph.")
+
+        subgraph = graph.extract_test_subgraph_for_networkx(350)
+        draw_graph = louvain.Draw_Graph(subgraph)
+        draw_graph.visualize()
+
+
 
     button1 = tk.Button(frame, text="Run!", command=run_path, bg='light green')
     button1.place(x=21, y=115, height=34, width=122)
@@ -82,10 +92,10 @@ if __name__ == "__main__":
     button2 = tk.Button(frame, text="Randomise Path", command=randomise_path, bg='light green')
     button2.place(x=166, y=115, height=34, width=122)
 
-    see_graph = tk.Button(frame, text="See Graph", command=run_path, bg='gray')
+    see_graph = tk.Button(frame, text="See Graph", command=graph_visualisation, bg='gray')
     see_graph.place(x=145+166, y=115, height=34, width=122)
 
-    see_communities = tk.Button(frame, text="See Communities", command=randomise_path, bg='gray')
+    see_communities = tk.Button(frame, text="See Communities", command=louvain_visualisation, bg='gray')
     see_communities.place(x=166+145+145, y=115, height=34, width=122)
 
     # python_ta.check_all(config={

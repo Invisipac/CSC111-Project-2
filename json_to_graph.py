@@ -30,6 +30,7 @@ def add_all_vertices(graph: Digraph, data: dict, article: str) -> None:
 
     for link in data[article]:
         add_all_vertices(graph, data[article], link)
+
         graph.add_edge(url_to_str(article.removeprefix(WIKILINK_PREFIX)), url_to_str(link.removeprefix(WIKILINK_PREFIX)))
         # print("added edge between", article.removeprefix(WIKILINK_PREFIX), link.removeprefix(WIKILINK_PREFIX))
 
