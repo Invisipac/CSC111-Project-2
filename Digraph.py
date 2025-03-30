@@ -12,17 +12,21 @@ class Digraph:
     _vertices: dict[Any, _Vertex]
 
     def __init__(self):
+        """Initializes an empty directed graph."""
         self._vertices = {}
 
     def get_all_vertices(self) -> list[Any]:
+        """Returns a list of all vertices in the graph."""
         return [v for v in self._vertices]
 
     def get_incoming_and_outgoing(self, v: Any) -> tuple[list[Any], list[Any]]:
+        """Returns a tuple containing lists of incoming and outgoing vertices for the given vertex."""
         inc, out = [n.item for n in self._vertices[v].incoming], [n.item for n in self._vertices[v].outgoing]
         return inc, out
 
     @staticmethod
     def generate_test_graph() -> Digraph:
+        """Generates and returns a Digraph for testing purposes."""
         graph = Digraph()
         wikipedia_topics = [
             "Machine Learning", "Artificial Intelligence", "Data Science",
@@ -44,6 +48,7 @@ class Digraph:
         return graph
 
     def extract_test_subgraph_for_networkx(self, num_paths) -> nx.DiGraph:
+        """Extracts and returns a subgraph as a networkx DiGraph, based on shortest paths between random vertices."""
         paths = []
         for i in range(num_paths):
             random_start = random.choice(self.get_start_items())  # cannot start on a 'leaf' of the graph (no outgoing)
@@ -60,7 +65,6 @@ class Digraph:
                 nx_graph.add_edge(p[i], p[i + 1])
 
         return nx_graph
-
 
     def add_vertex(self, item: Any) -> None:
         """
@@ -102,7 +106,7 @@ class Digraph:
         else:
             raise ValueError
 
-    def remove_vertex(self, item):
+    def remove_vertex(self, item: Any) -> None:
         """ Removes a vertex by item value from the digraph.
 
         >>> graph = Digraph()
@@ -256,8 +260,8 @@ class Digraph:
 
         return transpose
 
-    def _dfs(self, src, visited, stack):
-        """ Traverses graph and uptades visited and stack
+    def _dfs(self, src: Any, visited: set, stack: deque) -> None:
+        """ Traverses graph and uptades visited and stack.
         """
         visited.add(src)
         for neighbour in self._vertices[src].outgoing:
@@ -266,15 +270,15 @@ class Digraph:
                 self._dfs(val, visited, stack)
         stack.append(src)
 
-    def _fill_order(self, visited, stack):
-        """ helper that calls dfs util
+    def _fill_order(self, visited: set, stack: deque) -> None:
+        """ Helper that calls dfs util.
         """
         for node in self._vertices:
             if node not in visited:
                 self._dfs(node, visited, stack)
 
-    def _dfs_util(self, src, visited, component):
-        """ Helper for kosaraju's, checks connected nodes for our tranposed graph
+    def _dfs_util(self, src: Any, visited: set, component: set) -> None:
+        """ Helper for kosaraju's, checks connected nodes for our tranposed graph.
         """
         visited.add(src)
         component.add(src)
@@ -282,8 +286,8 @@ class Digraph:
             if node.item not in visited:
                 self._dfs_util(node.item, visited, component)
 
-    def kosaraju(self):
-        """ Return the strongly connected components
+    def kosaraju(self) -> list:
+        """ Return the strongly connected components.
         """
 
         # create empty stack
@@ -305,22 +309,25 @@ class Digraph:
         return scc
 
     def __contains__(self, node: Any):
+        """Returns True if the graph contains the given node, False otherwise."""
         return node in self._vertices
 
     def get_vertex(self, item: Any) -> _Vertex:
-
+        """Returns the _Vertex object corresponding to the given item."""
         return self._vertices[item]
 
     def count_edges(self) -> int:
+        """Returns the number of edges in the graph."""
         count = 0
         for vertex in self._vertices:
             count += len(self._vertices[vertex].outgoing)
         return count
 
     def count_vertices(self) -> int:
+        """Returns the number of vertices in the graph."""
         return len(self._vertices)
 
-    def get_start_items(self) ->  list[Any]:
+    def get_start_items(self) -> list[Any]:
         """
         Returns a list of items of vertices in the graph which have at least one outgoing connection.
         """
@@ -339,6 +346,7 @@ class Digraph:
         """
         return [self._vertices[vert].item for vert in self._vertices]
 
+
 class _Vertex:
     item: Any
     incoming: set[_Vertex]
@@ -350,14 +358,18 @@ class _Vertex:
         self.incoming = set()
         self.outgoing = outgoing
 
-    def add_incoming_link(self, vertex: _Vertex):
+    def add_incoming_link(self, vertex: _Vertex) -> None:
+        """Adds an incoming link to the vertex."""
         self.incoming.add(vertex)
 
-    def add_outgoing_link(self, vertex: _Vertex):
+    def add_outgoing_link(self, vertex: _Vertex) -> None:
+        """Adds an outgoing link to the vertex."""
         self.outgoing.add(vertex)
 
-    def remove_incoming_link(self, vertex):
+    def remove_incoming_link(self, vertex: _Vertex) -> None:
+        """Removes an incoming link from the vertex."""
         self.incoming.remove(vertex)
 
-    def remove_outgoing_link(self, vertex):
+    def remove_outgoing_link(self, vertex: _Vertex) -> None:
+        """Removes an outgoing link from the vertex."""
         self.outgoing.remove(vertex)

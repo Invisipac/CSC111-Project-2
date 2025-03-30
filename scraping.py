@@ -9,7 +9,12 @@ import threading
 test_url = "Computer_science"
 d = 2
 
+
 def get_hyperlinks(page_url: str, data: dict = None) -> dict:
+    """
+    Retrieve hyperlinks from a Wikipedia page, and return a dictionary of links.
+    If data is provided, update that dictionary in place.
+    """
     url_base = "https://en.wikipedia.org/wiki/"
     page = requests.get(url_base + page_url)
 
@@ -38,6 +43,9 @@ def get_hyperlinks(page_url: str, data: dict = None) -> dict:
 
 
 def create_dataset(data: dict, depth: int) -> dict:
+    """
+    Return a nested dictionary representing a dataset of hyperlinks up to a given depth, using threads.
+    """
     if depth == 0:
         return data
     elif depth == d - 1: # or depth == d - 2:
@@ -61,6 +69,9 @@ def create_dataset(data: dict, depth: int) -> dict:
 
 
 def create_dataset_original(data: dict, depth: int) -> dict:
+    """
+    Create a nested dictionary representing a dataset of hyperlinks up to a given depth, without using threads.
+    """
     if depth == 0:
         return data
     else:

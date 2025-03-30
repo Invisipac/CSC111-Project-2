@@ -1,0 +1,8 @@
+python_ta
+beautifulsoup4
+networkx
+plotly
+python-louvain
+tkinter
+numpy
+scipy

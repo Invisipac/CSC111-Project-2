@@ -1,4 +1,3 @@
-
 from networkx.drawing import spring_layout
 from Digraph import Digraph
 import networkx as nx

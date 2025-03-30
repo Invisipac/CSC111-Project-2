@@ -15,7 +15,7 @@ class AutocompleteText(tk.Text):
 
     def _handle_tab(self, event):
         # see if any text has the "autocomplete" tag
-        tag_ranges= self.tag_ranges("autocomplete")
+        tag_ranges = self.tag_ranges("autocomplete")
         if tag_ranges:
             # move the insertion cursor to the end of
             # the selected text, and then remove the "sel"
