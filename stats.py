@@ -61,12 +61,8 @@ def display_multiple_paths(paths):
     for p in paths:
         if p:
             display_path(p)
-            print()
 
 def display_data_for_pair(start, end, graph):
-    print(graph)
-    start_vert = graph.get_vertex(start)
-    end_vert = graph.get_vertex(end)
     stats, shortest_path, paths = get_stats(graph, 1, start, end)
     print(f"The nodes {start} and {end}:\n")
     print("\t -----The data measured of the two nodes:-----\n")

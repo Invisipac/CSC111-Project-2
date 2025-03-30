@@ -23,9 +23,6 @@ if __name__ == "__main__":
     graph = json_to_graph.get_graph_from_link_data('multi-discipline_data.json')
     show_advanced_stats = tk.IntVar()
 
-    # path finder demo
-    print(graph.get_shortest_path("Computer_science", "Edging_(sexual_practice)"))
-
     # Update label once graph has loaded
     label.config(text="Graph loaded!")
     root.update()
