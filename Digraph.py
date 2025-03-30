@@ -308,16 +308,28 @@ class Digraph:
         return node in self._vertices
 
     def get_vertex(self, item: Any) -> _Vertex:
+        """
+        Returns the vertex object of a given item in graph.
 
+        Representation Invariant:
+        - item in self._vertices
+        """
         return self._vertices[item]
 
     def count_edges(self) -> int:
+        """
+        Returns the number of directed edges in the graph.
+        """
+
         count = 0
         for vertex in self._vertices:
             count += len(self._vertices[vertex].outgoing)
         return count
 
     def count_vertices(self) -> int:
+        """
+       Returns the number of vertices in the graph.
+       """
         return len(self._vertices)
 
     def get_start_items(self) ->  list[Any]:
