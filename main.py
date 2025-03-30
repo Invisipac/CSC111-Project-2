@@ -1,7 +1,5 @@
 import json_to_graph, Digraph
 import random
-import tkinter as tk
-from tkinter import ttk
 from tkinter_elements import *
 
 
@@ -67,17 +65,17 @@ if __name__ == "__main__":
         end_link.delete("1.0", tk.END)
         end_link.insert(tk.END, random_end)
 
-    button1 = tk.Button(frame, text="Run!", command=runPath)
-    button1.place(x=166, y=115, height=34, width=122)
+    button1 = tk.Button(frame, text="Run!", command=runPath, bg='light green')
+    button1.place(x=21, y=115, height=34, width=122)
 
-    button2 = tk.Button(frame, text="Randomise Path", command=randomisePath)
-    button2.place(x=311, y=115, height=34, width=122)
+    button2 = tk.Button(frame, text="Randomise Path", command=randomisePath, bg='light green')
+    button2.place(x=166, y=115, height=34, width=122)
 
-    see_graph = tk.Button(frame, text="See Graph", command=runPath)
-    see_graph.place(x=166, y=200, height=34, width=122)
+    see_graph = tk.Button(frame, text="See Graph", command=runPath, bg='gray')
+    see_graph.place(x=145+166, y=115, height=34, width=122)
 
-    see_communities = tk.Button(frame, text="See Communities", command=randomisePath)
-    see_communities.place(x=311, y=200, height=34, width=122)
+    see_communities = tk.Button(frame, text="See Communities", command=randomisePath, bg='gray')
+    see_communities.place(x=166+145+145, y=115, height=34, width=122)
 
     root.update()
     root.mainloop()
