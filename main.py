@@ -73,5 +73,11 @@ if __name__ == "__main__":
     button2 = tk.Button(frame, text="Randomise Path", command=randomisePath)
     button2.place(x=311, y=115, height=34, width=122)
 
+    see_graph = tk.Button(frame, text="See Graph", command=runPath)
+    see_graph.place(x=166, y=200, height=34, width=122)
+
+    see_communities = tk.Button(frame, text="See Communities", command=randomisePath)
+    see_communities.place(x=311, y=200, height=34, width=122)
+
     root.update()
     root.mainloop()
