@@ -1,11 +1,10 @@
-
-from networkx.drawing import spring_layout
-from Digraph import Digraph
-import networkx as nx
-import plotly as plt
-import plotly.graph_objs as go
-import json_to_graph
 import time
+
+import networkx as nx
+import plotly.graph_objs as go
+
+import json_to_graph
+from Digraph import Digraph
 
 
 class Draw_Graph:
