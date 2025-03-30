@@ -27,14 +27,10 @@ if __name__ == "__main__":
     label.config(text="Graph loaded!")
     root.update()
 
-    s = sorted(graph.get_start_items())
-    s2 = sorted(graph.get_items())
     possible_starts = sorted(graph.get_start_items())
     possible_ends = sorted(graph.get_items())
 
-
-
-    frame = tk.Frame(root, width=600, height=200)
+    frame = tk.Frame(root, width=600, height=240)
     frame.pack()
 
     # creating text box
@@ -47,10 +43,21 @@ if __name__ == "__main__":
     to_text = tk.Label(frame, font=("Helvetica", 24), text="to")
     to_text.place(x=288, y=35)
 
+    path_label = tk.Label(frame, text="", wraplength=500)
+    path_label.place(x=24, y=160, width=552)
+
+
+    def beautify_list(path: list) -> str:
+        str = ""
+        for item in path:
+            str += item.replace("_", " ")
+            str += " ⮕ "
+        return str[:-2]
+
     def runPath():
         start = start_link.get("0.1", tk.END).strip()
         end = end_link.get("0.1", tk.END).strip()
-        print(graph.get_shortest_path(start,  end))
+        path_label.config(text=beautify_list(graph.get_shortest_path(start,  end)))
 
     def randomisePath():
         random_start = random.choice(possible_starts)
@@ -61,22 +68,10 @@ if __name__ == "__main__":
         end_link.insert(tk.END, random_end)
 
     button1 = tk.Button(frame, text="Run!", command=runPath)
-    button1.place(x=181, y=115, height=34, width=238)
+    button1.place(x=166, y=115, height=34, width=122)
 
     button2 = tk.Button(frame, text="Randomise Path", command=randomisePath)
-    button2.place(x=181, y=150, height=34, width=238)
+    button2.place(x=311, y=115, height=34, width=122)
 
     root.update()
     root.mainloop()
-
-
-
-    # count = 0
-    # for p in range(1):
-    #     # get random path demo
-    #     random_start = random.choice(graph.get_start_items()) # cannot start on a 'leaf' of the graph (no outgoing)
-    #     random_end = random.choice(graph.get_items())
-    #     path = graph.get_shortest_path(random_start, random_end)
-    #     print("Random: ", path)
-    #     count += len(path)
-    # print("Average path length (n = 1000): ", count/1000)

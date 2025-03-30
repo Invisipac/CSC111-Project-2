@@ -62,8 +62,7 @@ class Digraph:
         return nx_graph
 
 
-
-    def add_vertex(self, item: Any):
+    def add_vertex(self, item: Any) -> None:
         """
         Adds a vertex to the digraph.
 
@@ -309,6 +308,7 @@ class Digraph:
         return node in self._vertices
 
     def get_vertex(self, item: Any) -> _Vertex:
+
         return self._vertices[item]
 
     def count_edges(self) -> int:
@@ -336,7 +336,6 @@ class Digraph:
     def get_items(self) -> list[Any]:
         """
         Returns a list of items of vertices in the graph.
-        :return:
         """
         return [self._vertices[vert].item for vert in self._vertices]
 
