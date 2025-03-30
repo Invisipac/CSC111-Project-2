@@ -134,7 +134,7 @@ if __name__ == "__main__":
     g = json_to_graph.get_graph_from_link_data("multiple_words_data.json")
     end = time.time()
     print("Time to load graph:", end - start, "seconds.")
-    subgraph = g.extract_test_subgraph_for_networkx(1000)
+    subgraph = g.extract_test_subgraph_for_networkx(350)
 
     # Visualize the subgraph (commented by default if it's large)
     draw_graph = Draw_Graph(subgraph)

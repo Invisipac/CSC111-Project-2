@@ -222,6 +222,25 @@ class Digraph:
 
         return None
 
+    def get_all_paths(self, src: Any, dest: Any, num_nodes=None) -> list[Any] | None:
+
+        paths = []
+
+        # paths.append(self.get_shortest_path(src, dest))
+        if num_nodes is not None:
+            for i in range(num_nodes):
+                o = self._vertices[src].get_outgoing().pop()
+                path = self.get_shortest_path(o.item, dest)
+                if path:
+                    paths.append([src] + path)
+        else:
+            for o in self._vertices[src].get_outgoing():
+                path = self.get_shortest_path(o.item, dest)
+                if path:
+                    paths.append([src] + path)
+        return paths
+
+
     def is_path(self, src: Any, dest: Any) -> bool:
         """ Return if there is a valid path from src to dest
             (DFS style search for kosaraju's)
@@ -362,6 +381,8 @@ class _Vertex:
         self.incoming = set()
         self.outgoing = outgoing
 
+    def get_outgoing(self):
+        return self.outgoing.copy()
     def add_incoming_link(self, vertex: _Vertex):
         self.incoming.add(vertex)
 

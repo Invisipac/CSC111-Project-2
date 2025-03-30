@@ -44,36 +44,16 @@ class Draw_Graph:
             edge_x += [pos[edge[0]][0], pos[edge[1]][0], None]
             edge_y += [pos[edge[0]][1], pos[edge[1]][1], None]
 
-        # for edge in nx_graph.edges():
-        #     x0, y0 = nx_graph.nodes[edge[0]]['pos']
-        #     x1, y1 = nx_graph.nodes[edge[1]]['pos']
-        #     edge_x.append(x0)
-        #     edge_x.append(x1)
-        #     edge_x.append(None)
-        #     edge_y.append(y0)
-        #     edge_y.append(y1)
-        #     edge_y.append(None)
-
         edge_trace = go.Scatter(
             x=edge_x, y=edge_y,
             line=dict(width=0.5, color='#888'),
             hoverinfo='none',
             mode='lines')
 
-        # node_x = []
-        # node_y = []
-        # for node in nx_graph.nodes():
-        #     x, y = nx_graph.nodes[node]['pos']
-        #     node_x.append(x)
-        #     node_y.append(y)
-
         node_trace = go.Scatter(x=node_x,
                                 y=node_y,
                                 mode='markers',
                                 name='nodes',
-                                # marker=dict(symbol='circle-dot',
-                                #             size=5
-                                #             ),
                                 text=labels,
                                 hovertemplate='%{text}',
                                 hoverlabel={'namelength': 0})
@@ -126,18 +106,18 @@ class Draw_Graph:
 
 if __name__ == "__main__":
 
-    start = time.time()
+    # start = time.time()
     g = json_to_graph.get_graph_from_link_data("multiple_words_data.json")
-    end = time.time()
-    print(end - start)
-
-    start = time.time()
-    subgraph = g.extract_test_subgraph_for_networkx(350)
-    end = time.time()
-    print(end - start)
+    # end = time.time()
+    # print(end - start)
 
     # start = time.time()
-    # draw_graph = Draw_Graph(subgraph)
-    # draw_graph.visualize()
+    subgraph = g.extract_test_subgraph_for_networkx(350)
+    # end = time.time()
+    # print(end - start)
+
+    # start = time.time()
+    draw_graph = Draw_Graph(subgraph)
+    draw_graph.visualize()
     # end = time.time()
     # print(end - start)

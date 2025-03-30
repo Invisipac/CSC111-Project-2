@@ -5,6 +5,7 @@ import random
 from tkinter_elements import *
 import graph_visualization as vis
 import louvain_test as louvain
+from time import time
 
 if __name__ == "__main__":
     # hello groupmates (and maybe examiner)
