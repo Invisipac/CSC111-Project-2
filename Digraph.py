@@ -226,6 +226,24 @@ class Digraph:
 
         return None
 
+    def get_all_paths(self, src: Any, dest: Any, num_nodes=None) -> list[Any] | None:
+
+        paths = []
+
+        # paths.append(self.get_shortest_path(src, dest))
+        if num_nodes is not None:
+            for i in range(num_nodes):
+                o = self._vertices[src].get_outgoing().pop()
+                path = self.get_shortest_path(o.item, dest)
+                if path:
+                    paths.append([src] + path)
+        else:
+            for o in self._vertices[src].get_outgoing():
+                path = self.get_shortest_path(o.item, dest)
+                if path:
+                    paths.append([src] + path)
+        return paths
+
     def is_path(self, src: Any, dest: Any) -> bool:
         """ Return if there is a valid path from src to dest
             (DFS style search for kosaraju's)
@@ -313,18 +331,27 @@ class Digraph:
         return node in self._vertices
 
     def get_vertex(self, item: Any) -> _Vertex:
-        """Returns the _Vertex object corresponding to the given item."""
+        """
+        Returns the vertex object of a given item in graph.
+
+        Representation Invariant:
+        - item in self._vertices
+        """
         return self._vertices[item]
 
     def count_edges(self) -> int:
-        """Returns the number of edges in the graph."""
+        """
+        Returns the number of directed edges in the graph.
+        """
         count = 0
         for vertex in self._vertices:
             count += len(self._vertices[vertex].outgoing)
         return count
 
     def count_vertices(self) -> int:
-        """Returns the number of vertices in the graph."""
+        """
+        Returns the number of vertices in the graph.
+        """
         return len(self._vertices)
 
     def get_start_items(self) -> list[Any]:
@@ -357,6 +384,9 @@ class _Vertex:
         self.item = item
         self.incoming = set()
         self.outgoing = outgoing
+
+    def get_outgoing(self):
+        return self.outgoing.copy()
 
     def add_incoming_link(self, vertex: _Vertex) -> None:
         """Adds an incoming link to the vertex."""
