@@ -1,4 +1,6 @@
-import json_to_graph, Digraph
+import python_ta
+
+import json_to_graph
 import random
 from tkinter_elements import *
 from time import time
@@ -52,30 +54,37 @@ if __name__ == "__main__":
             str += " ⮕ "
         return str[:-2]
 
-    def runPath():
+    def run_path() -> None:
         start = start_link.get("0.1", tk.END).strip()
         end = end_link.get("0.1", tk.END).strip()
         path_label.config(text=beautify_list(graph.get_shortest_path(start,  end)))
 
-    def randomisePath():
+    def randomise_path() -> None:
         random_start = random.choice(possible_starts)
         random_end = random.choice(possible_ends)
+
         start_link.delete("1.0", tk.END)
         start_link.insert(tk.END, random_start)
         end_link.delete("1.0", tk.END)
         end_link.insert(tk.END, random_end)
 
-    button1 = tk.Button(frame, text="Run!", command=runPath, bg='light green')
+    button1 = tk.Button(frame, text="Run!", command=run_path, bg='light green')
     button1.place(x=21, y=115, height=34, width=122)
 
-    button2 = tk.Button(frame, text="Randomise Path", command=randomisePath, bg='light green')
+    button2 = tk.Button(frame, text="Randomise Path", command=randomise_path, bg='light green')
     button2.place(x=166, y=115, height=34, width=122)
 
-    see_graph = tk.Button(frame, text="See Graph", command=runPath, bg='gray')
+    see_graph = tk.Button(frame, text="See Graph", command=run_path, bg='gray')
     see_graph.place(x=145+166, y=115, height=34, width=122)
 
-    see_communities = tk.Button(frame, text="See Communities", command=randomisePath, bg='gray')
+    see_communities = tk.Button(frame, text="See Communities", command=randomise_path, bg='gray')
     see_communities.place(x=166+145+145, y=115, height=34, width=122)
+
+    python_ta.check_all(config={
+        'extra-imports': [],  # the names (strs) of imported modules
+        'allowed-io': [],  # the names (strs) of functions that call print/open/input
+        'max-line-length': 120
+    })
 
     root.update()
     root.mainloop()
