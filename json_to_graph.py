@@ -1,3 +1,15 @@
+"""CSC111 Project 2 WikiMap Team
+
+Module Description
+==================
+This module converts between tree representations of data in .json format to Digraph instances.
+
+
+Copyright and Usage Information
+===============================
+This file is Copyright (c) 2025 CSC111 WikiMap Team
+"""
+
 import csv
 import json
 from urllib.parse import unquote

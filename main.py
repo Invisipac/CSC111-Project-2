@@ -1,5 +1,16 @@
-import python_ta
+"""CSC111 Project 2 WikiMap Team
 
+Module Description
+==================
+This module runs the WikiMap app and provides helper functions to access all other functionality of the project.
+
+
+Copyright and Usage Information
+===============================
+This file is Copyright (c) 2025 CSC111 WikiMap Team
+"""
+
+import python_ta
 import json_to_graph
 import random
 from tkinter_elements import *
