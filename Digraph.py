@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Any
+from typing import Any, Optional
 from collections import deque
 import random
 import networkx as nx
@@ -15,13 +15,13 @@ class Digraph:
 
     _vertices: dict[Any, _Vertex]
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initializes an empty directed graph."""
         self._vertices = {}
 
     def get_all_vertices(self) -> list[Any]:
         """Returns a list of all vertices in the graph."""
-        return [v for v in self._vertices]
+        return list(self._vertices)
 
     def get_incoming_and_outgoing(self, v: Any) -> tuple[list[Any], list[Any]]:
         """Returns a tuple containing lists of incoming and outgoing vertices for the given vertex."""
@@ -51,7 +51,7 @@ class Digraph:
         graph.add_edge("Natural Language Processing", "Reinforcement Learning")
         return graph
 
-    def extract_test_subgraph_for_networkx(self, num_paths) -> nx.DiGraph:
+    def extract_test_subgraph_for_networkx(self, num_paths: int) -> nx.DiGraph:
         """Extracts and returns a subgraph as a networkx DiGraph, based on shortest paths between random vertices."""
         paths = []
         for _i in range(num_paths):
@@ -198,7 +198,7 @@ class Digraph:
             for node in self._vertices[cur].outgoing:
                 val = node.item
                 if val not in visited:
-                    queue.append((val, d+1))
+                    queue.append((val, d + 1))
         return -1
 
     def get_shortest_path(self, src: Any, dest: Any) -> list[Any] | None:
@@ -234,13 +234,14 @@ class Digraph:
 
         return None
 
-    def get_all_paths(self, src: Any, dest: Any, num_nodes=None) -> list[Any] | None:
-
+    def get_all_paths(self, src: Any, dest: Any, num_nodes: Optional[int] = None) -> list[Any] | None:
+        """ Return all the paths from a source node to a destination node
+        """
         paths = []
 
         # paths.append(self.get_shortest_path(src, dest))
         if num_nodes is not None:
-            for i in range(num_nodes):
+            for _ in range(num_nodes):
                 o = self._vertices[src].get_outgoing().pop()
                 path = self.get_shortest_path(o.item, dest)
                 if path:
@@ -334,7 +335,7 @@ class Digraph:
                 scc.append(component)
         return scc
 
-    def __contains__(self, node: Any):
+    def __contains__(self, node: Any) -> bool:
         """Returns True if the graph contains the given node, False otherwise."""
         return node in self._vertices
 
@@ -402,7 +403,8 @@ class _Vertex:
         self.incoming = set()
         self.outgoing = outgoing
 
-    def get_outgoing(self):
+    def get_outgoing(self) -> set[_Vertex]:
+        """Returns a copy of the outgoing set"""
         return self.outgoing.copy()
 
     def add_incoming_link(self, vertex: _Vertex) -> None:
@@ -421,9 +423,14 @@ class _Vertex:
         """Removes an outgoing link from the vertex."""
         self.outgoing.remove(vertex)
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
+    import python_ta
+
     python_ta.check_all(config={
-        'extra-imports': [],  # the names (strs) of imported modules
-        'allowed-io': [],  # the names (strs) of functions that call print/open/input
-        'max-line-length': 120
+        'max-line-length': 120,
+        'disable': ['E1136'],
+        'extra-imports': ['csv', 'networkx'],
+        'allowed-io': ['load_review_graph'],
+        'max-nested-blocks': 4
     })

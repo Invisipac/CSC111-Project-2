@@ -9,6 +9,12 @@ from Digraph import Digraph
 
 
 class Draw_Graph:
+    """Class used to convert the Digraph into a networkx graph then into plotly
+
+    Representation Invariants:
+        - type(graph) == Digraph
+
+    """
     graph: Digraph
 
     def __init__(self, graph: Digraph | nx.DiGraph):
@@ -16,7 +22,11 @@ class Draw_Graph:
 
     @staticmethod
     def to_networkx(graph: Digraph) -> nx.DiGraph:
-        """a"""
+        """Given a Digraph convert it into a networkx graph so that plotly can use it
+
+        Preconditions:
+            - type(graph) == Digraph
+        """
 
         nx_graph = nx.DiGraph()
         for v in graph.get_all_vertices():
@@ -30,7 +40,12 @@ class Draw_Graph:
         return nx_graph
 
     def gen_graph_plot(self) -> tuple:
-        """a"""
+        """Turn the networkx graph into a plotly graph that can then be displayed
+
+        Preconditions:
+            - type(self.graph) in {nx.DiGraph, Digraph}
+
+        """
         if not isinstance(self.graph, nx.DiGraph):
             nx_graph = Draw_Graph.to_networkx(self.graph)
         else:
@@ -84,6 +99,8 @@ class Draw_Graph:
         return edge_trace, node_trace, arrow_annotations
 
     def visualize(self) -> None:
+        """Generate the graph visualization and display it
+        """
         edge_trace, node_trace, arrow_annotations = self.gen_graph_plot()
 
         fig = go.Figure(data=[edge_trace, node_trace],

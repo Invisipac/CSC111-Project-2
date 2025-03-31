@@ -13,7 +13,7 @@ if __name__ == "__main__":
     # https://www.figma.com/design/5z95NPKZOqNYSsIcEinEHF/Untitled?node-id=1-7&t=XhewlutMdVN6NP3T-1
 
     root = tk.Tk()
-    root.title("Wikilinks App")
+    root.title("WikiMap App")
 
     label = tk.Label(root, text="Loading graph data... this might take a while (~10s).")
     label.pack(pady=10)
@@ -28,7 +28,10 @@ if __name__ == "__main__":
     root.update()
 
     possible_starts = sorted(graph.get_start_items())
+    possible_starts = [start.replace("_", " ") for start in possible_starts]
+
     possible_ends = sorted(graph.get_items())
+    possible_ends = [end.replace("_", " ") for end in possible_ends]
 
     frame = tk.Frame(root, width=600, height=240)
     frame.pack()
@@ -48,11 +51,11 @@ if __name__ == "__main__":
 
 
     def beautify_list(path: list) -> str:
-        str = ""
+        string = ""
         for item in path:
-            str += item.replace("_", " ")
-            str += " ⮕ "
-        return str[:-2]
+            string += item.replace("_", " ")
+            string += " ⮕ "
+        return string[:-2]
 
 
     def run_path() -> None:
@@ -60,6 +63,8 @@ if __name__ == "__main__":
         end = end_link.get("0.1", tk.END).strip()
 
         if start in possible_starts and end in possible_ends:
+            start = start.replace(" ", "_")
+            end = end.replace(" ", "_")
             path_label.config(text=beautify_list(graph.get_shortest_path(start, end)))
             path_label.update()
 
