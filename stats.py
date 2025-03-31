@@ -1,5 +1,3 @@
-
-
 import json_to_graph
 import random
 from time import time
@@ -15,6 +13,7 @@ ITERS = 10
 
 # for i in range(20):
 #     print(get_connectivity(g))
+
 
 def get_stats(graph, iterations, start=None, end=None):
     stats = {"num_paths": 0, "shortest_path_length": 0, "time_to_get_shortest_path": 0, "time_to_get_paths": 0, "percent_paths": 0}
@@ -57,10 +56,12 @@ def display_path(path: list):
 
     print(path[-1])
 
+
 def display_multiple_paths(paths):
     for p in paths:
         if p:
             display_path(p)
+
 
 def display_data_for_pair(start, end, graph):
     stats, shortest_path, paths = get_stats(graph, 1, start, end)
@@ -73,7 +74,6 @@ def display_data_for_pair(start, end, graph):
     print("\n")
     print("\t -----All of the shortest paths between the two nodes:----\n")
     display_multiple_paths(paths)
-
 
 
 def output_results(stats: dict):
@@ -97,6 +97,7 @@ def output_results(stats: dict):
 
             case "percent_paths":
                 print(f"\t- {stats[s]} percent of the starting vertex's neighbours had a path to the ending vertex")
+
 
 if __name__ == "__main__":
     start, end = random.choice(g.get_start_items()), random.choice(g.get_items())
