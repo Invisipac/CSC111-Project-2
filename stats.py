@@ -88,6 +88,7 @@ def display_data_for_pair(start, end, graph):
     display_multiple_paths(paths)
 
 
+
 def output_results(stats: dict):
     """Neatly display all the data in the stats dictionary
 
