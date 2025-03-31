@@ -1,27 +1,27 @@
-from networkx.drawing import spring_layout
-from Digraph import Digraph
-import networkx as nx
-import plotly.graph_objs as go
 import time
-import json_to_graph
+from networkx.drawing import spring_layout
+import plotly.graph_objs as go
 import community as community_louvain  # pip install python-louvain
-
-# For a discrete color palette
+import networkx as nx
 import plotly.express as px
+from Digraph import Digraph
 
 
-class Draw_Graph:
-    """ Drawing a Louvain graph with discrete community colors (no arrow annotations). """
+class DrawGraph:
+    """ Drawing a Louvain graph with discrete community colors (no arrow annotations).
+
+        Instance Attributes:
+        - graph: the Digraph or networkX graph that will be visualized
+    """
 
     graph: Digraph | nx.DiGraph
 
-    def __init__(self, graph: Digraph | nx.DiGraph):
+    def __init__(self, graph: Digraph | nx.DiGraph) -> None:
         self.graph = graph
 
     @staticmethod
     def to_networkx(graph: Digraph) -> nx.DiGraph:
-        """
-        Convert a custom Digraph to a NetworkX DiGraph.
+        """ Convert a custom Digraph to a NetworkX DiGraph.
         """
         nx_graph = nx.DiGraph()
         for v in graph.get_all_vertices():
@@ -36,9 +36,8 @@ class Draw_Graph:
     def visualize(self) -> None:
         """ Visualize the graph using plotly
         """
-
         if not isinstance(self.graph, nx.DiGraph):
-            nx_graph = Draw_Graph.to_networkx(self.graph)
+            nx_graph = DrawGraph.to_networkx(self.graph)
         else:
             nx_graph = self.graph
 
@@ -112,13 +111,21 @@ class Draw_Graph:
 
 
 if __name__ == "__main__":
-    # Example usage
+
+    # import python_ta
+    # python_ta.check_all(config={
+    #     'max-line-length': 120,
+    #     'disable': ['E1136'],
+    #     'extra-imports': ['csv', 'ex4_part2'],
+    #     'allowed-io': ['evaluate_predictor'],
+    #     'max-nested-blocks': 4
+    # })
+
     start = time.time()
     g = json_to_graph.get_graph_from_link_data("multiple_words_data.json")
     end = time.time()
     print("Time to load graph:", end - start, "seconds.")
     subgraph = g.extract_test_subgraph_for_networkx(350)
 
-    # Visualize the subgraph (commented by default if it's large)
-    draw_graph = Draw_Graph(subgraph)
+    draw_graph = DrawGraph(subgraph)
     draw_graph.visualize()
