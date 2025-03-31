@@ -1,3 +1,15 @@
+"""CSC111 Project 2 WikiMap Team
+
+Module Description
+==================
+Module contains custom tkinter elements for use in apps.
+
+
+Copyright and Usage Information
+===============================
+This file is Copyright (c) 2025 CSC111 WikiMap Team
+"""
+
 import tkinter as tk
 
 class AutocompleteText(tk.Text):

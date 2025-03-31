@@ -1,3 +1,15 @@
+"""CSC111 Project 2 WikiMap Team
+
+Module Description
+==================
+Generates stats on conectivity for entire graphs or pairs of vertices.
+
+
+Copyright and Usage Information
+===============================
+This file is Copyright (c) 2025 CSC111 WikiMap Team
+"""
+
 from typing import Any
 import json_to_graph
 import random

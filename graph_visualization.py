@@ -1,3 +1,15 @@
+"""CSC111 Project 2 WikiMap Team
+
+Module Description
+==================
+Plots digraph instances as plotly graphs.
+
+
+Copyright and Usage Information
+===============================
+This file is Copyright (c) 2025 CSC111 WikiMap Team
+"""
+
 import time
 
 from networkx.drawing import spring_layout
