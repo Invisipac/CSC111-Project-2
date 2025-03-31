@@ -1,5 +1,4 @@
 import python_ta
-
 import json_to_graph
 import random
 from tkinter_elements import *
@@ -94,7 +93,7 @@ if __name__ == "__main__":
 
 
     def louvain_visualisation() -> None:
-        label.config(text="Calculating communities may take upwards of 1-3 minutes."
+        label.config(text="Calculating communities may take upwards of 1 minute."
                           "\nCheck the console to see articles being added, and PyCharm plots to see the finished graph.")
         label.update()
 

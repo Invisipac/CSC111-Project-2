@@ -1,23 +1,38 @@
+"""CSC111 Project 2 WikiMap Team
+
+Module Description
+==================
+An implementation of the Digraph and its associated subclass _Vertex.
+
+Copyright and Usage Information
+===============================
+This file is Copyright (c) 2025 CSC111 WikiMap Team
+"""
+
 from __future__ import annotations
-from typing import Any
+from typing import Any, Optional
 from collections import deque
 import random
 import networkx as nx
+import python_ta
 
 class Digraph:
     """
     A representation of a directed graph data structure.
+
+    Attributes:
+        - _vertices: a dictionary mapping item values to _Vertex objects in the graph
     """
 
     _vertices: dict[Any, _Vertex]
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initializes an empty directed graph."""
         self._vertices = {}
 
     def get_all_vertices(self) -> list[Any]:
         """Returns a list of all vertices in the graph."""
-        return [v for v in self._vertices]
+        return list(self._vertices)
 
     def get_incoming_and_outgoing(self, v: Any) -> tuple[list[Any], list[Any]]:
         """Returns a tuple containing lists of incoming and outgoing vertices for the given vertex."""
@@ -47,10 +62,10 @@ class Digraph:
         graph.add_edge("Natural Language Processing", "Reinforcement Learning")
         return graph
 
-    def extract_test_subgraph_for_networkx(self, num_paths) -> nx.DiGraph:
+    def extract_test_subgraph_for_networkx(self, num_paths: int) -> nx.DiGraph:
         """Extracts and returns a subgraph as a networkx DiGraph, based on shortest paths between random vertices."""
         paths = []
-        for i in range(num_paths):
+        for _i in range(num_paths):
             random_start = random.choice(self.get_start_items())  # cannot start on a 'leaf' of the graph (no outgoing)
             random_end = random.choice(self.get_items())
             path = self.get_shortest_path(random_start, random_end)
@@ -194,13 +209,17 @@ class Digraph:
             for node in self._vertices[cur].outgoing:
                 val = node.item
                 if val not in visited:
-                    queue.append((val, d+1))
+                    queue.append((val, d + 1))
         return -1
 
     def get_shortest_path(self, src: Any, dest: Any) -> list[Any] | None:
         """
         Returns a list representing a path from the src to the destination, as items in the graph. If no
         such path is found, returns None.
+
+        Preconditions:
+        - src in self._vertices
+        - dest in self._vertices
         """
 
         queue = deque([src])
@@ -226,13 +245,14 @@ class Digraph:
 
         return None
 
-    def get_all_paths(self, src: Any, dest: Any, num_nodes=None) -> list[Any] | None:
-
+    def get_all_paths(self, src: Any, dest: Any, num_nodes: Optional[int] = None) -> list[Any] | None:
+        """ Return all the paths from a source node to a destination node
+        """
         paths = []
 
         # paths.append(self.get_shortest_path(src, dest))
         if num_nodes is not None:
-            for i in range(num_nodes):
+            for _ in range(num_nodes):
                 o = self._vertices[src].get_outgoing().pop()
                 path = self.get_shortest_path(o.item, dest)
                 if path:
@@ -326,7 +346,7 @@ class Digraph:
                 scc.append(component)
         return scc
 
-    def __contains__(self, node: Any):
+    def __contains__(self, node: Any) -> bool:
         """Returns True if the graph contains the given node, False otherwise."""
         return node in self._vertices
 
@@ -375,6 +395,15 @@ class Digraph:
 
 
 class _Vertex:
+    """
+    A class representing a single vertex in a graph.
+
+    Attributes:
+        - item: the item of the vertex
+        - incoming: a set of all vertices with an edge directed into this vertex
+        - outgoing: a set of all vertices that this vertex is directed into
+    """
+
     item: Any
     incoming: set[_Vertex]
     outgoing: set[_Vertex]
@@ -385,7 +414,8 @@ class _Vertex:
         self.incoming = set()
         self.outgoing = outgoing
 
-    def get_outgoing(self):
+    def get_outgoing(self) -> set[_Vertex]:
+        """Returns a copy of the outgoing set"""
         return self.outgoing.copy()
 
     def add_incoming_link(self, vertex: _Vertex) -> None:
@@ -403,3 +433,15 @@ class _Vertex:
     def remove_outgoing_link(self, vertex: _Vertex) -> None:
         """Removes an outgoing link from the vertex."""
         self.outgoing.remove(vertex)
+
+
+if __name__ == '__main__':
+    import python_ta
+
+    python_ta.check_all(config={
+        'max-line-length': 120,
+        'disable': ['E1136'],
+        'extra-imports': ['csv', 'networkx'],
+        'allowed-io': ['load_review_graph'],
+        'max-nested-blocks': 4
+    })

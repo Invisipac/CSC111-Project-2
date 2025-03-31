@@ -1,14 +1,24 @@
+"""CSC111 Project 2 WikiMap Team
+
+Module Description
+==================
+This module converts between tree representations of data in .json format to Digraph instances.
+
+
+Copyright and Usage Information
+===============================
+This file is Copyright (c) 2025 CSC111 WikiMap Team
+"""
+
 import csv
 import json
-from pprint import pprint
-
-from Digraph import Digraph, _Vertex
 from urllib.parse import unquote
+from Digraph import Digraph, _Vertex
 
 WIKILINK_PREFIX = ""
 
 
-def url_to_str(string: str):
+def url_to_str(string: str) -> str:
     """
     Decode a URL-encoded string and returns the decoded string.
     """
@@ -45,4 +55,12 @@ def add_all_vertices(graph: Digraph, data: dict, article: str) -> None:
 
 if __name__ == "__main__":
     # print(len(get_graph_from_link_data('multi-discipline_data.json').get_vertex("Computer_science").outgoing))
+    # import python_ta
+    # python_ta.check_all(config={
+    #     'max-line-length': 120,
+    #     'disable': ['E1136'],
+    #     'extra-imports': ['csv', 'ex4_part2'],
+    #     'allowed-io': ['evaluate_predictor'],
+    #     'max-nested-blocks': 4
+    # })
     pass
