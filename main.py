@@ -63,6 +63,7 @@ if __name__ == "__main__":
 
 
     def beautify_list(path: list) -> str:
+        """Formats a list of strings into a readable path string."""
         string = ""
         for item in path:
             string += item.replace("_", " ")
@@ -71,6 +72,7 @@ if __name__ == "__main__":
 
 
     def run_path() -> None:
+        """Retrieves and displays the shortest path between two user-specified links."""
         start = start_link.get("0.1", tk.END).strip()
         end = end_link.get("0.1", tk.END).strip()
 
@@ -85,6 +87,7 @@ if __name__ == "__main__":
 
 
     def randomise_path() -> None:
+        """Randomly selects and displays a path between two links."""
         random_start = random.choice(possible_starts)
         random_end = random.choice(possible_ends)
 
@@ -95,6 +98,7 @@ if __name__ == "__main__":
 
 
     def graph_visualisation() -> None:
+        """Visualizes a subgraph of the main graph."""
         label.config(text="Visualising graph may take upwards of 1-3 minutes."
                           "\nCheck the console to see articles being added, and PyCharm plots to see the finished graph.")
         label.update()
@@ -105,6 +109,7 @@ if __name__ == "__main__":
 
 
     def louvain_visualisation() -> None:
+        """Visualizes communities within a subgraph using the Louvain algorithm."""
         label.config(text="Calculating communities may take upwards of 1 minute."
                           "\nCheck the console to see articles being added, and PyCharm plots to see the finished graph.")
         label.update()
