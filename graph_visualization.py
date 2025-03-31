@@ -9,6 +9,12 @@ from Digraph import Digraph
 
 
 class Draw_Graph:
+    """Class used to convert the Digraph into a networkx graph then into plotly
+
+    Representation Invariants:
+        - type(graph) == Digraph
+
+    """
     graph: Digraph
 
     def __init__(self, graph: Digraph | nx.DiGraph):
