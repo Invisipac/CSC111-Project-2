@@ -1,3 +1,14 @@
+"""CSC111 Project 2 WikiMap Team
+
+Module Description
+==================
+This module visualizes the Louvain Communties of the graph.
+
+
+Copyright and Usage Information
+===============================
+This file is Copyright (c) 2025 CSC111 WikiMap Team
+"""
 import time
 from networkx.drawing import spring_layout
 import plotly.graph_objs as go
