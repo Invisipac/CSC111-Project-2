@@ -8,15 +8,17 @@ g = json_to_graph.get_graph_from_link_data("multiple_words_data.json")
 ITERS = 10
 
 
-# def get_connectivity(g, num_nodes=None):
-#     start, end = random.choice(g.get_start_items()), random.choice(g.get_items())
-#     paths = g.get_all_paths(start, end, num_nodes)
-#     return start, end, len(paths)
-
-# for i in range(20):
-#     print(get_connectivity(g))
-
 def get_stats(graph, iterations, start=None, end=None):
+    """Given a graph and a number of iterations, if start and end are None, each iteration generate
+    a random pair of start and end points and computer a variety of statistics for these nodes
+    and return them as a dict.
+    If iterations is 1, then also return the list of paths and the shortest path so that they can then be displayed
+    in the console
+
+    Preconditions:
+        - iterations >= 1
+
+    """
     stats = {"num_paths": 0, "shortest_path_length": 0, "time_to_get_shortest_path": 0, "time_to_get_paths": 0, "percent_paths": 0}
     shortest_path, paths = [], []
     for i in range(iterations):
@@ -51,18 +53,29 @@ def get_stats(graph, iterations, start=None, end=None):
 
 
 def display_path(path: list):
+    """Given a list of nodes, display the path that they represent using an arrow '-->'.
+     """
     print("\t")
     for n in path[:-1]:
         print(n, end=' --> ')
 
     print(path[-1])
 
-def display_multiple_paths(paths):
+
+def display_multiple_paths(paths: list):
+    """Display all the paths in the list paths"""
     for p in paths:
         if p:
             display_path(p)
 
+
 def display_data_for_pair(start, end, graph):
+    """Neatly display the data collected for a singular pair of nodes
+
+    Preconditions:
+        - start, end in graph.get_all_vertices()
+
+    """
     stats, shortest_path, paths = get_stats(graph, 1, start, end)
     print(f"The nodes {start} and {end}:\n")
     print("\t -----The data measured of the two nodes:-----\n")
@@ -75,8 +88,14 @@ def display_data_for_pair(start, end, graph):
     display_multiple_paths(paths)
 
 
-
 def output_results(stats: dict):
+    """Neatly display all the data in the stats dictionary
+
+    Preconditions:
+        - "iterations","num_paths", "shortest_path_length",
+        "time_to_get_shortest_path", "time_to_get_paths","percent_paths" in stats
+
+    """
     iterations = stats["iterations"]
     if iterations > 1:
         print(f"Out of {iterations} iterations, on average, every pair of start and end point:\n")
@@ -97,6 +116,7 @@ def output_results(stats: dict):
 
             case "percent_paths":
                 print(f"\t- {stats[s]} percent of the starting vertex's neighbours had a path to the ending vertex")
+
 
 if __name__ == "__main__":
     start, end = random.choice(g.get_start_items()), random.choice(g.get_items())
