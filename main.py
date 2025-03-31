@@ -32,6 +32,7 @@ if __name__ == "__main__":
 
     print("Loading graph data... this might take a while (~10s).")
     graph = json_to_graph.get_graph_from_link_data('multi-discipline_data.json')
+    graph_size = 100
     show_advanced_stats = tk.IntVar()
 
     # Update label once graph has loaded
@@ -98,7 +99,7 @@ if __name__ == "__main__":
                           "\nCheck the console to see articles being added, and PyCharm plots to see the finished graph.")
         label.update()
 
-        subgraph = graph.extract_test_subgraph_for_networkx(150)
+        subgraph = graph.extract_test_subgraph_for_networkx(graph_size)
         draw_graph = vis.Draw_Graph(subgraph)
         draw_graph.visualize()
 
@@ -108,7 +109,7 @@ if __name__ == "__main__":
                           "\nCheck the console to see articles being added, and PyCharm plots to see the finished graph.")
         label.update()
 
-        subgraph = graph.extract_test_subgraph_for_networkx(150)
+        subgraph = graph.extract_test_subgraph_for_networkx(graph_size)
         draw_graph = louvain.DrawGraph(subgraph)
         draw_graph.visualize()
 
