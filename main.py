@@ -109,7 +109,7 @@ if __name__ == "__main__":
         label.update()
 
         subgraph = graph.extract_test_subgraph_for_networkx(150)
-        draw_graph = louvain.Draw_Graph(subgraph)
+        draw_graph = louvain.DrawGraph(subgraph)
         draw_graph.visualize()
 
 
@@ -124,12 +124,12 @@ if __name__ == "__main__":
 
     see_communities = tk.Button(frame, text="See Communities", command=louvain_visualisation, bg='gray')
     see_communities.place(x=166 + 145 + 145, y=135, height=34, width=122)
-
-    python_ta.check_all(config={
-        'extra-imports': [],  # the names (strs) of imported modules
-        'allowed-io': [],  # the names (strs) of functions that call print/open/input
-        'max-line-length': 120
-    })
+    #
+    # python_ta.check_all(config={
+    #     'extra-imports': [],  # the names (strs) of imported modules
+    #     'allowed-io': [],  # the names (strs) of functions that call print/open/input
+    #     'max-line-length': 120
+    # })
 
     extended_stats_button = tk.Checkbutton(frame, text="Advanced Stats (in console, " +
                                                        "this can take a loooong time, recommended only once)",

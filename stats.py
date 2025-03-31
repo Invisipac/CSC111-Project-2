@@ -1,11 +1,10 @@
-
-
+from typing import Any
 import json_to_graph
 import random
 from time import time
 
 
-def get_stats(graph, iterations, start=None, end=None):
+def get_stats(graph, iterations, start=None, end=None) -> Any:
     """Given a graph and a number of iterations, if start and end are None, each iteration generate
     a random pair of start and end points and computer a variety of statistics for these nodes
     and return them as a dict.
@@ -49,7 +48,7 @@ def get_stats(graph, iterations, start=None, end=None):
     return stats_average
 
 
-def display_path(path: list):
+def display_path(path: list) -> None:
     """Given a list of nodes, display the path that they represent using an arrow '-->'.
      """
     print("\t")
@@ -59,14 +58,14 @@ def display_path(path: list):
     print(path[-1])
 
 
-def display_multiple_paths(paths: list):
+def display_multiple_paths(paths: list) -> None:
     """Display all the paths in the list paths"""
     for p in paths:
         if p:
             display_path(p)
 
 
-def display_data_for_pair(start, end, graph):
+def display_data_for_pair(start, end, graph) -> None:
     """Neatly display the data collected for a singular pair of nodes
 
     Preconditions:
@@ -86,7 +85,7 @@ def display_data_for_pair(start, end, graph):
 
 
 
-def output_results(stats: dict):
+def output_results(stats: dict) -> None:
     """Neatly display all the data in the stats dictionary
 
     Preconditions:

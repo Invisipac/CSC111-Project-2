@@ -3,6 +3,13 @@ import tkinter as tk
 class AutocompleteText(tk.Text):
     """
     A tkinter Text widget with autocomplete functionality.
+
+    This class code is wholly created by Bryan Oakley in his post:
+    https://stackoverflow.com/questions/71770128/tkinter-text-autofill
+
+    Oakley, Bryan. “Tkinter Text Autofill.” Stack Overflow, 1 Feb. 1967,
+    stackoverflow.com/questions/71770128/tkinter-text-autofill.
+    Accessed 30 Mar. 2025.
     """
 
     def __init__(self, *args, **kwargs):

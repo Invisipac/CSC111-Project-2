@@ -7,3 +7,4 @@ tkinter
 numpy
 pandas
 scipy
+community
