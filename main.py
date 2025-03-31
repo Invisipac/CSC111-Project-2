@@ -82,17 +82,17 @@ if __name__ == "__main__":
                           "\nCheck the console to see articles being added, and PyCharm plots to see the finished graph.")
         label.update()
 
-        subgraph = graph.extract_test_subgraph_for_networkx(350)
+        subgraph = graph.extract_test_subgraph_for_networkx(150)
         draw_graph = vis.Draw_Graph(subgraph)
         draw_graph.visualize()
 
 
     def louvain_visualisation() -> None:
-        label.config(text="Calculating communities may take upwards of 1-3 minutes."
+        label.config(text="Calculating communities may take upwards of 1 minute."
                           "\nCheck the console to see articles being added, and PyCharm plots to see the finished graph.")
         label.update()
 
-        subgraph = graph.extract_test_subgraph_for_networkx(350)
+        subgraph = graph.extract_test_subgraph_for_networkx(150)
         draw_graph = louvain.Draw_Graph(subgraph)
         draw_graph.visualize()
 
@@ -109,11 +109,11 @@ if __name__ == "__main__":
     see_communities = tk.Button(frame, text="See Communities", command=louvain_visualisation, bg='gray')
     see_communities.place(x=166 + 145 + 145, y=135, height=34, width=122)
 
-    # python_ta.check_all(config={
-    #     'extra-imports': [],  # the names (strs) of imported modules
-    #     'allowed-io': [],  # the names (strs) of functions that call print/open/input
-    #     'max-line-length': 120
-    # })
+    python_ta.check_all(config={
+        'extra-imports': [],  # the names (strs) of imported modules
+        'allowed-io': [],  # the names (strs) of functions that call print/open/input
+        'max-line-length': 120
+    })
 
     extended_stats_button = tk.Checkbutton(frame, text="Advanced Stats (in console, " +
                                                        "this can take a loooong time, recommended only once)",

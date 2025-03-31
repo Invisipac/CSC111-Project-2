@@ -4,9 +4,6 @@ import json_to_graph
 import random
 from time import time
 
-g = json_to_graph.get_graph_from_link_data("multiple_words_data.json")
-ITERS = 10
-
 
 # def get_connectivity(g, num_nodes=None):
 #     start, end = random.choice(g.get_start_items()), random.choice(g.get_items())
@@ -99,6 +96,9 @@ def output_results(stats: dict):
                 print(f"\t- {stats[s]} percent of the starting vertex's neighbours had a path to the ending vertex")
 
 if __name__ == "__main__":
+    g = json_to_graph.get_graph_from_link_data("multiple_words_data.json")
+    ITERS = 10
+
     start, end = random.choice(g.get_start_items()), random.choice(g.get_items())
     display_data_for_pair(start, end, g)
     stats = get_stats(g, ITERS)

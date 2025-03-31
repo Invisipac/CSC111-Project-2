@@ -3,10 +3,14 @@ from typing import Any
 from collections import deque
 import random
 import networkx as nx
+import python_ta
 
 class Digraph:
     """
     A representation of a directed graph data structure.
+
+    Attributes:
+        - _vertices: a dictionary mapping item values to _Vertex objects in the graph
     """
 
     _vertices: dict[Any, _Vertex]
@@ -50,7 +54,7 @@ class Digraph:
     def extract_test_subgraph_for_networkx(self, num_paths) -> nx.DiGraph:
         """Extracts and returns a subgraph as a networkx DiGraph, based on shortest paths between random vertices."""
         paths = []
-        for i in range(num_paths):
+        for _i in range(num_paths):
             random_start = random.choice(self.get_start_items())  # cannot start on a 'leaf' of the graph (no outgoing)
             random_end = random.choice(self.get_items())
             path = self.get_shortest_path(random_start, random_end)
@@ -201,6 +205,10 @@ class Digraph:
         """
         Returns a list representing a path from the src to the destination, as items in the graph. If no
         such path is found, returns None.
+
+        Preconditions:
+        - src in self._vertices
+        - dest in self._vertices
         """
 
         queue = deque([src])
@@ -375,6 +383,15 @@ class Digraph:
 
 
 class _Vertex:
+    """
+    A class representing a single vertex in a graph.
+
+    Attributes:
+        - item: the item of the vertex
+        - incoming: a set of all vertices with an edge directed into this vertex
+        - outgoing: a set of all vertices that this vertex is directed into
+    """
+
     item: Any
     incoming: set[_Vertex]
     outgoing: set[_Vertex]
@@ -403,3 +420,10 @@ class _Vertex:
     def remove_outgoing_link(self, vertex: _Vertex) -> None:
         """Removes an outgoing link from the vertex."""
         self.outgoing.remove(vertex)
+
+if __name__ == "__main__":
+    python_ta.check_all(config={
+        'extra-imports': [],  # the names (strs) of imported modules
+        'allowed-io': [],  # the names (strs) of functions that call print/open/input
+        'max-line-length': 120
+    })

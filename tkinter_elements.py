@@ -1,6 +1,10 @@
 import tkinter as tk
 
 class AutocompleteText(tk.Text):
+    """
+    A tkinter Text widget with autocomplete functionality.
+    """
+
     def __init__(self, *args, **kwargs):
         self.callback = kwargs.pop("autocomplete", None)
         super().__init__(*args, **kwargs)
@@ -14,6 +18,7 @@ class AutocompleteText(tk.Text):
         self.bind("<Tab>", self._handle_tab)
 
     def _handle_tab(self, event):
+        """Handles when the user presses tab."""
         # see if any text has the "autocomplete" tag
         tag_ranges = self.tag_ranges("autocomplete")
         if tag_ranges:
@@ -28,6 +33,7 @@ class AutocompleteText(tk.Text):
             return "break"
 
     def _autocomplete(self, event):
+        """Handles the autocompletion off the text box, given a callable function event."""
         if event.char and self.callback:
             # get word preceeding the insertion cursor
             word = self.get("insert-1c wordstart", "insert-1c wordend")
