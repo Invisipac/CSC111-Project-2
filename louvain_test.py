@@ -5,6 +5,7 @@ import community as community_louvain  # pip install python-louvain
 import networkx as nx
 import plotly.express as px
 from Digraph import Digraph
+import json_to_graph
 
 
 class DrawGraph:
